@@ -1,0 +1,255 @@
+@import "constants";
+@import "mixins";
+
+$consumption-widget-size: 500px;
+$header-height: 40px;
+
+#page-consumption #page-content {
+  &>.row {
+    min-height: 550px;
+    height: 100%;
+    &>div {
+      height: 100%;
+    }
+  }
+
+  h2, h3, h4 {
+    position: absolute;
+    top: 0;
+  }
+
+  .consumption-first-row {
+    height: 75%;
+    .row>div {
+      padding-top: $header-height;
+    }
+  }
+
+  .consumption-second-row {
+    height: 25%;
+    position: relative;
+    .row>div {
+      padding-top: $header-height;
+    }
+  }
+
+  #consumption-diagram {
+    position: relative;
+  }
+
+  #consumption-balance {
+    &>div {
+      height: 33%;
+      position: relative;
+    }
+  }
+
+  #consumption-left-side {
+    .consumption-second-row {
+      padding-top: 20px;
+      border-top: 1px solid $color-grey-5A;
+
+    }
+  }
+
+  #consumption-right-side {
+    background-color: $color-grey-5A;
+    border-left: 1px solid $color-grey-32;
+    .consumption-second-row {
+      background-color: $color-grey-4B;
+      border-top: 1px solid $color-grey-32;
+      margin-left: -15px;
+      margin-right: -15px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
+@mixin concentric-circle($size) {
+  position: absolute;
+  top: 50% - $size/2;
+  left: 50% - $size/2;
+  width: $size;
+  height: $size;
+}
+
+#consumption-widget {
+  position: absolute;
+  width: $consumption-widget-size;
+  height: $consumption-widget-size;
+  top: 50%;
+  left: 50%;
+  margin-top: -250px;
+  margin-left: -250px;
+
+  .consumption-widget-label {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    padding: 2px;
+    &>div {
+      font-family: $font-roboto;
+      @include font-size(18/16);
+      padding-left: 4px;
+      border-bottom: 1px solid $color-grey-86;
+      border-left:  1px solid $color-grey-86;
+    }
+  }
+
+  #consumption-widget-wings {
+    @include concentric-circle(80%);
+  }
+
+  #consumption-widget-icon {
+    padding: 20px;
+    display: block;
+    border: 2px solid $color-grey-52;
+    border-radius: 50%;
+    box-shadow: 0 0 50px $color-grey-52;
+    @include concentric-circle(38%);
+    background: radial-gradient($color-grey-5A, $color-grey-5A, $color-grey-52); /* Standard syntax */
+  }
+
+  .consumption-widget-small {
+    @include concentric-circle(50%);
+    path {
+      stroke-width: 8;
+      stroke: $color-orange;
+    }
+  }
+  .consumption-widget-medium {
+    @include concentric-circle(62%);
+    path {
+      stroke-width: 7;
+      stroke: $color-orange-dark;
+    }
+  }
+  .consumption-widget-large {
+    @include concentric-circle(74%);
+    path {
+      stroke-width: 6;
+      stroke: $color-orange-darkest;
+    }
+  }
+}
+
+#consumption-diagram-values {
+  .consumption-valuebox {
+    text-align: right;
+    border-bottom: 1px solid $color-grey-86;
+
+    .valuebox-value {
+      @include font-size(60/16);
+      color: $color-grey-EC;
+    }
+
+    .valuebox-unit {
+      @include font-size(24/16);
+      font-family: $font-montserrat;
+      margin-left: 10px;
+    }
+  }
+
+  #total-consumption .valuebox-unit { color: $color-orange-darkest; }
+  #devices-consumption .valuebox-unit { color: $color-orange-dark; }
+  #others-consumption .valuebox-unit { color: $color-orange; }
+}
+
+#consumption-weekly-graph {
+  height: 100%;
+  width: 100%;
+  padding-top: $header-height;
+  &>*{
+    height: 100%;
+  }
+  .c3-axis {
+    stroke: $color-grey-86;
+    line {
+      stroke: $color-grey-86;
+    }
+    .domain {
+      stroke: $color-grey-86;
+    }
+  }
+  .chart-legend {
+    font-family: $font-roboto;
+    @include font-size(9/16);
+    line-height: 100%;
+    color: $color-white;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    & > div {
+      margin-top: 4px;
+    }
+    span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      vertical-align: middle;
+      margin-right: 2px;
+    }
+  }
+}
+
+#consumption-balance {
+  &>div {
+    padding-top: $header-height;
+    border-bottom: 1px solid $color-grey-3C;
+  }
+
+  &>div:last-child {
+    border: none;
+  }
+
+  .consumption-balance-value {
+    border-bottom: 1px solid $color-grey-64;
+    border-right: 1px solid $color-grey-64;
+    position: absolute;
+    bottom: 15%;
+    width: 100%;
+
+    .valuebox-value {
+      @include font-size(60/16);
+      line-height: normal;
+    }
+    .valuebox-unit {
+      @include font-size(40/16);
+      font-family: $font-montserrat;
+      margin-left: 10px;
+      color: $color-grey-32;
+    }
+    .valuebox-minus {
+      @include font-size(24/16);
+      font-family: $font-montserrat;
+      color: $color-grey-32;
+    }
+  }
+
+  .bar-meter-widget {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 60px;
+
+    div {
+      height: 9px;
+      margin-top: 2px;
+      background-color: $color-orange;
+    }
+    div.bar-lvl-5 {
+      background-color: $color-orange-dark;
+    }
+    div.bar-lvl-6 {
+      background-color: $color-orange-darkest;
+    }
+  }
+}
+
+/* Portrait tablets and phones */
+@media all and (max-width: 767px) {
+  #consumption-left-side{
+    height: auto !important;
+  }
+}

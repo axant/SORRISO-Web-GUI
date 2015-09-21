@@ -1,0 +1,50 @@
+<html py:extends="_layout.xhtml" py:strip="True">
+<head py:block="head" py:strip="">
+    <title py:block="title" py:strip="">Storico dati</title>
+    <meta py:block="subtitle" py:strip="">Controlla i dati passati <br/>del tuo sistema
+    </meta>
+
+</head>
+<body py:block="body" py:strip="">
+<div class="row">
+    <div class="col-md-8 col-lg-9 chart-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="production-chart-container">
+                    <h2>PRODUZIONE E CONSUMO</h2>
+                    <div id="#ractive-production-widget"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="storage-chart-container">
+                    <h2>STORAGE - PERCENTUALE DI CARICA</h2>
+                    <div id="ractive-storage-widget"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-3 hidden-sm hidden-xs calendars-container">
+        <div class=""><h2>PERIODO SELEZIONATO</h2>
+
+            <div class="calendar-subtitle">DA:</div>
+            <div class="calendar-container">
+                <div id="from-calendar" data-date=""></div>
+            </div>
+            <div class="calendar-subtitle">A:</div>
+            <div class="calendar-container">
+                <div id="to-calendar" data-date="">
+                </div>
+            </div>
+            <br/>
+
+            <div id="refresh-button">
+                <div class="vertical-aligner"></div>
+                <div class="refresh-button-text" style="">AGGIORNA</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

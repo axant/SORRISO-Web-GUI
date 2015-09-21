@@ -1,0 +1,169 @@
+
+@mixin _linear-gradient($angle, $url, $color-stops...) {
+  $_angle-with-vendor-prefix: "";
+  $_angle: "";
+  @if $angle == "to top" or $angle == "bottom" {
+    $_angle-with-vendor-prefix: bottom;
+    $_angle: to top;
+  } @else if $angle == "to right" or $angle == "left" {
+    $_angle-with-vendor-prefix: left;
+    $_angle: to right;
+  } @else if $angle == "to bottom" or $angle == "top" {
+    $_angle-with-vendor-prefix: top;
+    $_angle: to bottom;
+  } @else if $angle == "to left" or $angle == "right" {
+    $_angle-with-vendor-prefix: right;
+    $_angle: to left;
+  } @else if $angle == "to top right" or $angle == "bottom left" {
+    $_angle-with-vendor-prefix: bottom left;
+    $_angle: to top right;
+  } @else if $angle == "to bottom right" or $angle == "top left" {
+    $_angle-with-vendor-prefix: top left;
+    $_angle: to bottom right;
+  } @else if $angle == "to bottom left" or $angle == "top right" {
+    $_angle-with-vendor-prefix: top right;
+    $_angle: to bottom left;
+  } @else if $angle == "to top left" or $angle == "bottom right" {
+    $_angle-with-vendor-prefix: bottom right;
+    $_angle: to top left;
+  } @else {
+    $_angle-with-vendor-prefix: $angle % 360;
+    $_angle: (90 - $angle) % 360;
+  }
+
+  @if ($url) {
+    background: $url, -webkit-linear-gradient($_angle-with-vendor-prefix, $color-stops) repeat;
+    background: $url, -moz-linear-gradient($_angle-with-vendor-prefix, $color-stops) repeat;
+    background: $url, -o-linear-gradient($_angle-with-vendor-prefix, $color-stops) repeat;
+    background: $url, linear-gradient($_angle, $color-stops) repeat;
+  }
+  @else {
+    background: -webkit-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: -moz-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: -o-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: linear-gradient($_angle, $color-stops);
+  }
+}
+
+@mixin image-linear-gradient($angle, $url, $color-stops...) {
+  @include _linear-gradient($angle, $url, $color-stops...);
+}
+
+@mixin linear_gradient($angle, $color-stops...) {
+  @include _linear-gradient($angle, false, $color-stops...);
+}
+
+// http://seesparkbox.com/foundry/scss_rem_mixin_now_with_a_better_fallback
+@mixin font-size( $decimal-size, $keyword: null ) {
+  $base-font-multiplier: 1;
+  @if $keyword{ font-size: $keyword; }
+  @else { font-size: $decimal-size * $base-font-multiplier * 16px;}
+  font-size: $decimal-size * 1rem;
+}
+
+
+// compass sass ruby port https://github.com/Igosuki/compass-mixins/blob/master/lib/compass/functions/_lists.scss
+
+@function compact($vars...) {
+  $list: ();
+  @each $var in $vars {
+      @if $var {
+          $list: append($list, $var, comma);
+      }
+  }
+  @return $list;
+}
+
+@function first-value-of($list) {
+  @return nth($list, 1);
+}
+
+@function -compass-space-list($item1, $item2:null, $item3:null, $item4:null, $item5:null, $item6:null, $item7:null, $item8:null, $item9:null) {
+  // Support for polymorphism.
+  @if type-of($item1) == 'list' {
+    // Passing a single array of properties.
+    $items: $item1;
+  } @else {
+    $items: $item1 $item2 $item3 $item4 $item5 $item6 $item7 $item8 $item9;
+  }
+
+  $full: first-value-of($items);
+
+  @for $i from 2 through length($items) {
+    $item: nth($items, $i);
+    @if $item != null {
+      $full: $full $item;
+    }
+  }
+
+  @return $full;
+}
+
+
+$default-text-shadow-h-offset: 0px;
+$default-text-shadow-v-offset: 0px;
+$default-text-shadow-blur: 1px;
+$default-text-shadow-spread: false;
+$default-text-shadow-color: #aaaaaa;
+
+// COMPASS MIXINS
+
+@mixin text-shadow($shadow...) {
+  $shadow: if(length($shadow) > 0, $shadow, default);
+  $default: -compass-space-list(compact($default-text-shadow-h-offset $default-text-shadow-v-offset $default-text-shadow-blur $default-text-shadow-spread $default-text-shadow-color));
+  $shadows-without-spread: join((), (), comma);
+  $shadows: join((), (), comma);
+  $has-spread: false;
+  @each $layer in $shadow {
+    $layer: if($layer == "default", $default, $layer);
+    @if length($layer) > 4 {
+      $has-spread: true;
+      $shadows-without-spread: append($shadows-without-spread, nth($layer, 1) nth($layer, 2) nth($layer, 3) nth($layer, 5));
+      $shadows: append($shadows, $layer);
+    } @else {
+      $shadows-without-spread: append($shadows-without-spread, $layer);
+      $shadows: append($shadows, $layer);
+    }
+  }
+  @if $has-spread {
+    text-shadow: $shadows-without-spread;
+  }
+  text-shadow: $shadows;
+}
+
+
+@mixin single-text-shadow($hoff: false, $voff: false, $blur: false, $spread: false, $color: false) {
+  // A lot of people think the color comes first. It doesn't.
+  @if type-of($hoff) == color {
+    $temp-color: $hoff;
+    $hoff: $voff;
+    $voff: $blur;
+    $blur: $spread;
+    $spread: $color;
+    $color: $temp-color;
+  }
+  // Can't rely on default assignment with multiple supported argument orders.
+  $hoff: if($hoff, $hoff, $default-text-shadow-h-offset);
+  $voff: if($voff, $voff, $default-text-shadow-v-offset);
+  $blur: if($blur, $blur, $default-text-shadow-blur);
+  $spread: if($spread, $spread, $default-text-shadow-spread);
+  $color: if($color, $color, $default-text-shadow-color);
+  // We don't need experimental support for this property.
+  @if $color == none or $hoff == none {
+    @include text-shadow(none);
+  } @else {
+    @include text-shadow(compact($hoff $voff $blur $spread $color));
+  }
+}
+
+@mixin circle($radius) {
+  display: block;
+  width: $radius;
+  height: $radius;
+  border-radius: $radius/2;
+  background: transparent;
+  box-shadow: 0 0 4px #222 inset;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

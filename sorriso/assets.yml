@@ -1,0 +1,52 @@
+directory: ../
+debug: False
+updater: timestamp
+manifest: False
+
+bundles:
+    style:
+        filters: cssutils
+        output: build/css/style.css
+        contents:
+            - sorriso/css/bootstrap.min.css
+            - sorriso/css/weather.css
+            - sorriso/css/c3.css
+            - sorriso/css/bootstrap-switch.min.css
+            - sorriso/css/bootstrap-datepicker3.standalone.min.css
+            - contents:
+                - sorriso/css/style.scss
+                - sorriso/css/home.scss
+                - sorriso/css/devices.scss
+                - sorriso/css/consumption.scss
+                - sorriso/css/history.scss
+              filters: libsass
+    jsall:
+        filters: jsmin
+        output: build/js/dependencies.js
+        contents:
+            - sorriso/config.js
+            - sorriso/js/browser-polyfill.min.js
+            - sorriso/js/jquery-2.1.4.min.js
+            - sorriso/js/jquery.simpleWeather.min.js
+            - sorriso/js/bootstrap.min.js
+            - sorriso/js/bootstrap-switch.min.js
+            - sorriso/js/bootstrap-datepicker.min.js
+            - sorriso/js/bootstrap-datepicker.it.min.js
+            - sorriso/js/d3.js
+            - sorriso/js/c3.js
+            - sorriso/js/progressbar.js
+            - sorriso/js/ractive.js
+            - sorriso/js/moment.js
+            - sorriso/js/moment.it.js
+            - sorriso/js/weather.js
+    jsapp:
+        filters: babeljs
+        output: build/js/app.js
+        contents:
+            - sorriso/js/data_abstraction_layer.js
+            - sorriso/js/utils.js
+            - sorriso/js/controllers/devices.js
+            - sorriso/js/controllers/home.js
+            - sorriso/js/controllers/consumption.js
+            - sorriso/js/controllers/history.js
+            - sorriso/js/app.js

@@ -1,0 +1,8 @@
+
+*.pyc
+*.egg-info
+.idea
+venv
+.webassets-cache
+build
+.DS_Store

@@ -1,0 +1,357 @@
+@import "constants";
+@import "mixins";
+
+$mobile-navbar-height: 80px;
+
+html, body, .container-fluid {
+  height: 100%;
+  overflow: hidden;
+  font-family: $font-roboto;
+  font-size: $font-root-size;
+  font-weight: $weight-light;
+
+  h2, h3, h4 {
+    font-family: $font-roboto;
+    color: $color-grey-EC;
+    background-image: url("../img/background-title.png");
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-top: 4px;
+    min-height: 30px;
+  }
+
+  h2 {
+    @include font-size(22/16);
+    font-weight: $weight-light;
+  }
+
+  h3 {
+    font-weight: normal;
+    @include font-size(13/16);
+  }
+}
+
+body > .container-fluid {
+  & > #topbar {
+    @include image-linear-gradient(left, url('../img/hash.png'), $color-purple-dark, $color-purple-light);
+    overflow: hidden;
+    height: 10%;
+    min-height: 80px;
+    color: $color-white;
+    border-bottom: 1px solid black;
+
+    & > * {
+      font-family: $font-montserrat;
+    }
+
+    #page-title {
+      @include font-size(3.75, large);
+      padding-right: 10px;
+      text-transform: uppercase;
+      letter-spacing: 9px;
+    }
+
+    #page-subtitle {
+      border-left: solid 2px $color-white;
+      display: inline-block;
+      @include font-size(1.125);
+      padding-left: 10px;
+    }
+  }
+
+  & > #main {
+    height: 80%;
+    overflow: auto;
+
+    #page-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      height: 100%;
+      background-color: $color-grey-64;
+      color: $color-grey-EC;
+    }
+
+    #sidebar-container {
+      padding: 0px;
+      @include image-linear-gradient(top, url('../img/hash.png'), $color-purple-dark, $color-purple-light);
+      padding-left: 15px;
+      height: 100%;
+    }
+
+    #sidebar {
+      $pages: home, consumption, devices, history;
+      text-transform: uppercase;
+      background: $color-grey-3C;
+      height: 100%;
+
+      li {
+        margin-top: 0px;
+        border-bottom: 1px solid $color-grey-32;
+        height: 25%;
+        min-height: 80px;
+        padding-right: 0px;
+
+        &.active {
+          padding-left: 0px;
+        }
+
+        @each $page in $pages {
+          &.#{$page}.active a {
+            background-color: $color-grey-4B;
+            width: 100%;
+            border-right: solid 15px $color-grey-4B;
+            margin-left: 15px;
+            margin-right: -15px;
+            padding-left: 30px;
+
+            .bg {
+              background: url('../img/sidebar/#{$page}-a.png') $color-grey-4B no-repeat;
+              background-position: center center;
+              background-size: contain;
+            }
+            .arrow-bg {
+              display: block;
+            }
+          }
+
+          &.#{$page} a {
+            .bg {
+              background: url('../img/sidebar/#{$page}.png') $color-grey-3C no-repeat;
+              background-position: center center;
+              background-size: contain;
+              height: 60%;
+            }
+
+            .sidebar-title {
+              position: absolute;
+              bottom: 4px;
+              width: 80%;
+            }
+          }
+        }
+
+        a {
+          @include font-size(.8125);
+          font-family: $font-montserrat;
+          color: $color-white;
+          border-radius: 0px;
+          text-align: right;
+          padding-top: 20px;
+          height: 100%;
+          max-height: 100%;
+          min-height: 40px;
+
+          hr {
+            margin-top: 0px;
+            margin-bottom: 4px;
+          }
+
+          .arrow-bg,
+          img.arrow {
+            display: block;
+            position: absolute;
+            margin-top: -19px;
+            margin-left: -20px;
+            top: 50%;
+            left: 98%;
+            z-index: 200;
+          }
+
+          .arrow-bg {
+            margin-left: 0px;
+            top: 50%;
+            left: 98%;
+            width: 0;
+            height: 0;
+            margin-left: 15px;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 20px solid $color-grey-4B;
+            display: none;
+          }
+
+          &:focus, &:hover {
+            background-color: inherit;
+          }
+        }
+
+        &.active {
+          margin-left: -15px;
+          background: url('../img/hash.png') $color-orange repeat;
+          background-size: 15px auto;
+        }
+
+
+      }
+    }
+  }
+
+  & > #footer {
+    background: $color-grey-32;
+    color: $color-grey-64;
+    height: 10%;
+    @include font-size(7/16);
+
+    .footer-resizer {
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      width: 0;
+    }
+
+    .footer-content {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    #footer-left {
+      position: relative;
+      z-index: 1;
+      background: $color-grey-32;
+      float: left;
+      padding: 0 10px;
+      height: 100%;
+    }
+
+    #footer-right {
+      position: relative;
+      z-index: 1;
+      background: $color-grey-32;
+      float: right;
+      padding: 0 10px;
+      height: 100%;
+    }
+
+    #footer-middle {
+      position: relative;
+      height: 100%;
+
+      &>div {
+        position: absolute;
+        top: 50%;
+        margin-top: -25px;
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    b, i {
+      line-height: 210%;
+    }
+    #footer-logo {
+      margin-top: -48px;
+      background-color: $color-grey-32;
+      padding:0 20px;
+    }
+  }
+}
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+
+}
+
+/* Landscape tablets and medium desktops */
+@media all and (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media all and (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Landscape phones and portrait tablets */
+@media all and (max-width: 767px) {
+  html, body, .container-fluid {
+    font-size: 10px;
+  }
+
+  body>.container-fluid>#main {
+    height: 100%;
+    padding-top: $mobile-navbar-height;
+  }
+
+  .nav-stacked > li {
+    float: left;
+  }
+
+  body>.container-fluid>#main #sidebar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $mobile-navbar-height;
+    padding-left: 0;
+
+    li { height: 100%; }
+    li a .arrow-bg, .arrow-bg *, .sidebar-title {
+      display: none;
+    }
+
+    #sidebar li.active {
+      margin-left: 0;
+      a {
+        border-right: 0;
+        margin-left: 0;
+        padding-left: 15px;
+
+        .arrow-bg {
+          display: none;
+        }
+      }
+    }
+  }
+
+}
+
+/* Portrait phones and smaller */
+@media all and (max-width: 480px) {
+
+}
+
+#topbar #weather {
+  float: right;
+  padding: 10px;
+  .weather-data {
+    float: right;
+    margin-left: 5px;
+
+    & > .weather-data-temp {
+      display: block;
+      padding-bottom: 2px;
+      border-bottom: 1px solid white;
+      font-size: 34px;
+      line-height: 34px;
+      text-align: center;
+    }
+    & > .weather-data-date {
+      padding-top: 2px;
+      display: block;
+      font-size: 18px;
+    }
+  }
+}
+
+#page-loader {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+  & > img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -64px;
+    margin-left: -64px;
+  }
+}

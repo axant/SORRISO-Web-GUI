@@ -1,0 +1,318 @@
+<html py:extends="_layout.xhtml" py:strip="True">
+<head py:block="head" py:strip="">
+    <title py:block="title" py:strip="">Dispositivi</title>
+    <meta py:block="subtitle" py:strip="">Controlla e programma <br/>i tuoi dispositivi in rete
+    </meta>
+
+</head>
+<body py:block="body" py:strip="">
+<div class="content-container">
+    <h2>OVERVIEW</h2>
+
+    <div id="refresh-devices"></div>
+    <div class="row">
+        <div id="ractive-widget"></div>
+    </div>
+</div>
+
+<script id="devices-container-template" type="text/html">
+    <![CDATA[
+    {{#each devices:i}}
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        {{#if .type == 1}}
+        <SmartPlugWidget device='{{.}}' index="{{i+1}}"/>
+        {{elseif .type == 2}}
+        <CounterWidget device='{{.}}' index="{{i+1}}"/>
+        {{elseif .type == 3}}
+        <BatteryWidget device='{{.}}' index="{{i+1}}"/>
+        {{elseif .type == 4}}
+        <OtherDeviceWidget device='{{.}}' index="{{i+1}}"/>
+        {{/if}}
+    </div>
+    {{/each devices}}
+    ]]>
+</script>
+
+<script id="smart-plug-widget-template" type="text/html">
+    <![CDATA[
+    <div class="widget-container">
+        {{#if history_view === true}}
+        <div class="history-container">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-info">/DATI DI QUESTA SETTIMANA</div>
+            <div class="history-chart"
+                 decorator="chart:'area-spline', {{device.history}}, 'rgba(243, 120, 14, 1.0)'"></div>
+            <div class="widget-label">Nome:</div>
+            <div class="history-device-name">{{device.name}}</div>
+        </div>
+        {{else}}
+        <div class="left-side">
+            <div class="indicator-n">D.{{index}}</div>
+            <img class="indicator-clock" src="img/devices/clock.png"/>
+
+            <div class="indicator-widget">
+                <div class="indicator-circle"></div>
+                <div class="indicator-widget-knob"
+                     decorator="progress:{{device.percentage}},'Circle'"></div>
+                <img src="img/devices/devices.png"/>
+
+                <div class="indicator-widget-data">
+                    <div class="indicator-widget-data-value">
+                        <span class="indicator-widget-value-level">{{device.level}}</span>
+                        <span class="indicator-widget-value-unit">{{device.unit}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="top">
+                <div class="widget-label">
+                    Nome:
+                </div>
+                <div class="widget-info" on-click="set('name_editing', true)">
+                    {{#if name_editing}}
+                    <input class="editing-widget-info" type="text" name="device_name"
+                           value="{{editing_name}}"
+                           on-blur="save_name_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.name}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Dove:
+                </div>
+                <div class="widget-info" on-click="set('location_editing', true)">
+                    {{#if location_editing}}
+                    <input class="editing-widget-info" type="text" name="device_location"
+                           value="{{editing_location}}"
+                           on-blur="save_location_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.location}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Tipo:
+                </div>
+                <div class="widget-type">
+                    {{device.type_label}}
+                </div>
+            </div>
+            <div class="bottom">
+
+                <div class="widget-label">
+                    Stato:
+                </div>
+                <div class="status-switch-container">
+                    <input type="checkbox" decorator="status:{{device.active}}">
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <img class="history-icon" src="{{history_icon(history_view)}}"/>
+        <img class="history-button" src="{{history_button(history_view)}}"
+             on-click="set('history_view', !history_view)"/>
+    </div>
+    ]]>
+</script>
+
+<script id="counter-widget-template" type="text/html">
+    <![CDATA[
+    <div class="widget-container">
+        {{#if history_view === true}}
+        <div class="history-container">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-info">/DATI DI QUESTA SETTIMANA</div>
+            <div class="history-chart"
+                 decorator="chart:'area-spline', {{device.history}}, 'rgba(243, 120, 14, 1.0)'"></div>
+            <div class="widget-label">Nome:</div>
+            <div class="history-device-name">{{device.name}}</div>
+        </div>
+        {{else}}
+        <div class="left-side">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-widget">
+                <div class="indicator-circle"></div>
+                <div class="indicator-widget-knob"
+                     decorator="progress:{{device.percentage}},'Circle'"></div>
+                <img src="img/devices/counter.png"/>
+
+                <div class="indicator-widget-data">
+                    <div class="indicator-widget-data-value">
+                        <span class="indicator-widget-value-level">{{device.level}}</span>
+                        <span class="indicator-widget-value-unit">{{device.unit}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="top">
+                <div class="widget-label">
+                    Nome:
+                </div>
+                <div class="widget-info" on-click="set('name_editing', true)">
+                    {{#if name_editing}}
+                    <input class="editing-widget-info" type="text" name="device_name"
+                           value="{{editing_name}}"
+                           on-blur="save_name_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.name}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Dove:
+                </div>
+                <div class="widget-info" on-click="set('location_editing', true)">
+                    {{#if location_editing}}
+                    <input class="editing-widget-info" type="text" name="device_location"
+                           value="{{editing_location}}"
+                           on-blur="save_location_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.location}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Tipo:
+                </div>
+                <div class="widget-type">
+                    {{device.type_label}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <img class="history-icon" src="{{history_icon(history_view)}}"/>
+        <img class="history-button" src="{{history_button(history_view)}}"
+             on-click="set('history_view', !history_view)"/>
+    </div>
+    ]]>
+</script>
+
+
+<script id="battery-widget-template" type="text/html">
+    <![CDATA[
+    <div class="widget-container">
+        {{#if history_view === true}}
+        <div class="history-container battery-history-container">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-info">/DATI DI QUESTA SETTIMANA</div>
+            <div class="history-chart-hover-container">
+                <div class="history-chart battery-chart"
+                     decorator="chart:'spline', {{device.history}}, 'rgba(34, 8, 45, 1.0)'">
+                </div>
+                <div class="history-chart-hover">
+                    <div class="history-chart-hover-overlay"></div>
+                    <div class="history-chart-hover-line-container">
+                        <div class="history-chart-hover-line"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-label">Nome:</div>
+            <div class="history-device-name">{{device.name}}</div>
+        </div>
+        {{else}}
+        <div class="left-side">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-widget">
+                <div class="indicator-circle"></div>
+                <div class="indicator-widget-knob-vertical"
+                     decorator="progress:{{device.percentage}},'Line'"></div>
+                <img src="img/devices/storage.png"/>
+
+                <div class="indicator-widget-data">
+                    <div class="indicator-widget-data-value-vertical">
+                        <span class="indicator-widget-value-level">{{device.level}}</span>
+                        <span class="indicator-widget-value-unit">{{device.unit}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="top">
+                <div class="widget-label">
+                    Nome:
+                </div>
+                <div class="widget-info" on-click="set('name_editing', true)">
+                    {{#if name_editing}}
+                    <input class="editing-widget-info" type="text" name="device_name"
+                           value="{{editing_name}}"
+                           on-blur="save_name_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.name}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Dove:
+                </div>
+                <div class="widget-info" on-click="set('location_editing', true)">
+                    {{#if location_editing}}
+                    <input class="editing-widget-info" type="text" name="device_location"
+                           value="{{editing_location}}"
+                           on-blur="save_location_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.location}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Tipo:
+                </div>
+                <div class="widget-type">
+                    {{device.type_label}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <img class="history-icon" src="{{history_icon(history_view)}}"/>
+        <img class="history-button" src="{{history_button(history_view)}}"
+             on-click="set('history_view', !history_view)"/>
+    </div>
+    ]]>
+</script>
+
+<script id="other-device-widget-template" type="text/html">
+    <![CDATA[
+    <div class="widget-container">
+        <div class="left-side">
+            <div class="indicator-n">D.{{index}}</div>
+            <div class="indicator-widget">
+                <div class="indicator-circle"></div>
+                <img src="img/devices/unknown.png"/>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="top">
+                <div class="widget-label">
+                    Nome:
+                </div>
+                <div class="widget-info" on-click="set('name_editing', true)">
+                    {{#if name_editing}}
+                    <input class="editing-widget-info" type="text" name="device_name"
+                           value="{{editing_name}}"
+                           on-blur="save_name_editing" autofocus="autofocus"
+                           onfocus="this.setSelectionRange(0, this.value.length)"/>
+                    {{else}}
+                    {{device.name}}
+                    {{/if}}
+                </div>
+                <div class="widget-label">
+                    Tipo:
+                </div>
+                <div class="widget-type">
+                    {{device.type_label}}
+                </div>
+            </div>
+            <div class="bottom">
+
+            </div>
+        </div>
+    </div>
+    ]]>
+</script>
+
+
+</body>
+</html>

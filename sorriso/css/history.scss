@@ -1,0 +1,160 @@
+@import "constants";
+@import "mixins";
+
+#page-content {
+  .chart-container {
+        min-height: 900px;
+  }
+  .production-chart-container, .storage-chart-container {
+    .c3-axis {
+      stroke: $color-grey-86;
+      line {
+        stroke: $color-grey-86;
+      }
+      .domain {
+        stroke: $color-grey-86;
+      }
+    }
+  }
+  .production-chart-container {
+    .c3:before {
+      content: "kW";
+      position: absolute;
+      font-family: $font-roboto;
+      @include font-size(12/16);
+      color: $color-grey-86;
+      left: 8px;
+      top: -3px;
+      font-weight: $weight-bold;
+    }
+    .chart-legend {
+      font-family: $font-roboto;
+      @include font-size(10/16);
+      line-height: 90%;
+      color: $color-white;
+      position: absolute;
+      top: 25px;
+      right: 0;
+      & > div {
+        margin-top: 4px;
+      }
+      span {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        vertical-align: baseline;
+        margin-right: 2px;
+      }
+    }
+    .ttip-info {
+      border: 1px solid $color-grey-86;
+      border-top: 15px solid $color-grey-86;
+      border-collapse: collapse;
+      text-align: right;
+      font-weight: normal;
+      td {
+        border: 2px solid $color-grey-86;
+        padding: 4px;
+      }
+      td:first-child {
+        text-align: left;
+      }
+      .ttip-unit {
+        color: $color-grey-3C;
+        font-weight: bold;
+      }
+    }
+  }
+  .storage-chart-container {
+    .history-chart-hover-container {
+      width: 100%;
+      position: relative;
+      .history-chart-hover {
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        top: 0;
+        left: 0;
+        padding-left: 51px;
+        .history-chart-hover-overlay {
+          background-color: rgba(100, 100, 100, 0.65);
+          height: 100%;
+        }
+        .history-chart-hover-line-container {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          margin-top: -1px;
+          .history-chart-hover-line {
+            margin-left: 45px;
+            border-bottom: 2px solid $color-grey-86;
+          }
+        }
+      }
+    }
+    .c3-line {
+      stroke-width: 10px;
+    }
+  }
+  .calendars-container {
+        min-height: 900px;
+    background-color: $color-grey-52;
+    border-left: 1px solid $color-grey-32;
+  }
+  .calendar-subtitle {
+    font-family: $font-roboto;
+    @include font-size(16/16);
+    color: $color-grey-86;
+  }
+  .calendar-container {
+    .datepicker {
+      left: 50%;
+      margin-left: -110px;
+      position: relative;
+      background-color: $color-white;
+      color: #333;
+    }
+  }
+  #from-calendar {
+    .active {
+      background-color: $color-purple-light
+    }
+  }
+  #to-calendar {
+    .active {
+      background-color: $color-orange-dark
+    }
+  }
+  #refresh-button {
+    text-align: center;
+    width: 220px;
+    left: 50%;
+    margin-left: -110px;
+    position: relative;
+    height: 60px;
+    border: $separator-grey-86;
+    cursor: pointer;
+    &:hover {
+      background-color: $color-orange-dark;
+      .refresh-button-text {
+        color: $color-white;
+      }
+    }
+    .vertical-aligner {
+      height: 100%;
+      display: inline-block;
+      width: 0;
+      vertical-align: middle;
+    }
+    .refresh-button-text {
+      font-family: $font-roboto;
+      @include font-size(16/16);
+      color: $color-grey-86;
+      font-weight: $weight-bold;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

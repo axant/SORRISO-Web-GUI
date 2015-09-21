@@ -1,0 +1,81 @@
+<html py:extends="_layout.xhtml" py:strip="True">
+<head py:block="head" py:strip="">
+    <title py:block="title" py:strip="">CONSUMI</title>
+    <meta py:block="subtitle" py:strip="">Verifica i consumi, la spesa<br/>e quanto risparmi grazie a Sorriso</meta>
+</head>
+<body py:block="body" py:strip="">
+    <div class="row">
+        <div class="col-md-8" id="consumption-left-side">
+             <div id="consumption-diagram" class="consumption-first-row hidden-xs">
+                <h2>CONSUMO ISTANTANEO</h2>
+                <script id="consumption-widget-template" type="text/html">
+            <![CDATA[
+                    <div id="consumption-widget">
+                        <img id="consumption-widget-wings" src="img/consumption/wings.png"/>
+                        <img id="consumption-widget-icon" src="img/consumption/consumi.png"/>
+                        <div id="consumption-widget-others" class="consumption-widget-small" decorator="progress:{{value.others.percentage}}">
+                            <div class="consumption-widget-label"><div>Altro</div></div>
+                        </div>
+                        <div id="consumption-widget-devices" class="consumption-widget-medium" decorator="progress:{{value.devices.percentage}}">
+                            <div class="consumption-widget-label"><div>Dispositivi</div></div>
+                        </div>
+                        <div id="consumption-widget-total" class="consumption-widget-large" decorator="progress:{{value.total.percentage}}">
+                            <div class="consumption-widget-label"><div>Totale</div></div>
+                        </div>
+                    </div>
+            ]]>
+                </script>
+             </div>
+
+            <div class="consumption-second-row">
+                <div id="consumption-diagram-values">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3>TOTALE</h3>
+                            <div id="total-consumption" class="consumption-valuebox"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>DISPOSITIVI REGISTRATI</h3>
+                            <div id="devices-consumption" class="consumption-valuebox"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>ALTRI DISPOSITIVI</h3>
+                            <div id="others-consumption" class="consumption-valuebox"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 hidden-sm" id="consumption-right-side">
+            <div class="consumption-first-row" id="consumption-balance">
+                <div>
+                    <h3>SPESA ISTANTANEA</h3>
+                    <div class="consumption-balance-value">
+                        <div id="consumption-instant-expense-bar"></div>
+                        <div id="consumption-instant-expense" class="consumption-valuebox"></div>
+                    </div>
+                </div>
+                <div>
+                    <h3>SPESA DI QUESTA SETTIMANA</h3>
+                    <div class="consumption-balance-value">
+                        <div id="consumption-weekly-expense-bar"></div>
+                        <div id="consumption-weekly-expense" class="consumption-valuebox"></div>
+                    </div>
+                </div>
+                <div>
+                    <h3>RISPARMIO DI QUESTA SETTIMANA</h3>
+                    <div class="consumption-balance-value">
+                        <div id="consumption-weekly-saving-bar"></div>
+                        <div id="consumption-weekly-saving" class="consumption-valuebox"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="consumption-second-row hidden-xs">
+                <h3>CONFRONTO SPESA SETTIMANALE</h3>
+                <div id="consumption-weekly-graph"></div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

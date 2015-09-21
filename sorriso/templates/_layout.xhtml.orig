@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Sorriso - <py:block name="title"></py:block></title>
+    <style>@keyframes dash { from { stroke-dashoffset: 26; } to { stroke-dashoffset: 0; } }</style>
+    <link href="css/style.css" rel='stylesheet' />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400' rel='stylesheet' type='text/css'/>
+    <script src="js/dependencies.js"></script>
+    <py:block name="head"></py:block>
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="topbar" class="row">
+            <div class="col-sm-12">
+                <span id="page-title"><py:block name="title"></py:block></span>
+                <span id="page-subtitle"><py:block name="subtitle"></py:block></span>
+
+                <div id="weather"></div>
+            </div>
+        </div>
+        <div class="row" id="main">
+            <div class="col-sm-2 col-xs-12" id="sidebar-container">
+                <ul class="nav nav-pills nav-stacked" id="sidebar">
+                    <li class="${'active' if page == 'home' else ''} home col-xs-3 col-sm-12">
+                        <a href="home.html">
+                            <span class="arrow-bg">
+                                <img src="img/sidebar/arrow.png" class="arrow"/>
+                            </span>
+                            <div class="bg"></div>
+                            <div class="sidebar-title">
+                                <hr/>
+                                HOME
+                            </div>
+                        </a>
+                    </li>
+                    <li class="${'active' if page == 'consumption' else ''} consumption col-xs-3 col-sm-12">
+                        <a href="consumption.html">
+                            <span class="arrow-bg">
+                                <img src="img/sidebar/arrow.png" class="arrow"/>
+                            </span>
+                            <div class="bg"></div>
+                            <div class="sidebar-title">
+                                <hr/>
+                                Consumi
+                            </div>
+                        </a>
+                    </li>
+                    <li class="${'active' if page == 'devices' else ''} devices col-xs-3 col-sm-12">
+                        <a href="devices.html">
+                            <span class="arrow-bg">
+                                <img src="img/sidebar/arrow.png" class="arrow"/>
+                            </span>
+                            <div class="bg"></div>
+                            <div class="sidebar-title">
+                                <hr/>
+                                Dispositivi
+                            </div>
+                        </a>
+                    </li>
+                    <li class="${'active' if page == 'history' else ''} history col-xs-3 col-sm-12">
+                        <a href="history.html">
+                            <span class="arrow-bg">
+                                <img src="img/sidebar/arrow.png" class="arrow"/>
+                            </span>
+                            <div class="bg"></div>
+                            <div class="sidebar-title">
+                                <hr/>
+                                Storico Dati
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-10" id="page-content">
+                <py:block name="body"></py:block>
+                <div id="page-loader"><img src="img/spinner.gif"/></div>
+            </div>
+        </div>
+        <div id="footer" class="row">
+            <div class="col-sm-2 col-xs-6">
+                <b>SORRISO – Più intelligenza alla tua energia.</b><br/>
+                Living lab su storage e fonti rinnovabili <br/>
+                in unità residenziali e edifici pubblici scolastici
+            </div>
+            <div class="col-sm-8 hidden-xs text-center">
+                <hr/>
+                <img src="img/sorriso_logo_footer.png" id="footer-logo" alt=""/>
+            </div>
+            <div class="col-sm-2 col-xs-6 text-right">
+                <i>SORRISO è un progetto di:</i><br/>
+                i-EM, Istituto Superiore Mario Boella, 4USolution, <br/>
+                Bellissimo, ISET Telecom, Ivrea Sistemi e Torino Nord Ovest <br/>
+                Interface Design: Bellissimo / Luca Ballarini
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script>
+        sorriso.run("$page");
+    </script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+@import "constants";
+@import "mixins";
+
+.content-container {
+  #refresh-devices {
+    background-image: url("../img/devices/refresh.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    &:hover {
+      background-image: url("../img/devices/refresh-hover.png");
+    }
+    &:active {
+      background-image: url("../img/devices/refresh.png");
+    }
+  }
+  .widget-container {
+    background-color: $color-grey-73;
+    height: 200px;
+    width: 100%;
+    margin-bottom: 55px;
+
+    .left-side, .right-side, .history-container {
+      position: absolute;
+      top: 10px;
+      height: 180px;
+      padding: 0 10px;
+    }
+    .indicator-n {
+      position: absolute;
+      font-family: $font-montserrat;
+      color: $color-grey-4B;
+      @include font-size(16/16);
+      top: -5px;
+    }
+    .indicator-info {
+      color: $color-grey-4B;
+      @include font-size(12/16);
+      font-family: $font-montserrat;
+      margin-left: 34px;
+    }
+    .history-icon {
+      position: absolute;
+      bottom: 72px;
+      right: 62px;
+    }
+    .history-button {
+      position: absolute;
+      bottom: 72px;
+      right: 30px;
+    }
+    .widget-label {
+      font-family: $font-roboto;
+      font-weight: $weight-bold;
+      @include font-size(10/16);
+      color: $color-grey-4B;
+      line-height: 1.2;
+    }
+    .history-device-name {
+      font-family: $font-roboto;
+      font-style: italic;
+      @include font-size(12/16);
+      color: $color-grey-4B;
+    }
+    .history-container {
+      width: 97%;
+      padding-right: 30px; /* Twice the padding of BS cols to compensate for being absolute to them */
+
+      .widget-label {
+        margin-top: -20px;
+      }
+
+      &.battery-history-container {
+        .widget-label {
+          margin-top: 0;
+        }
+
+        .battery-chart {
+          height: 130px;
+
+          .c3-line {
+            stroke-width: 5px;
+          }
+        }
+      }
+
+      .history-chart {
+        height: 150px; /* This provides height to the chart itself */
+        margin-left: -20px;
+
+        .c3-axis {
+          stroke: $color-grey-86;
+          line {
+            stroke: $color-grey-86;
+          }
+          .domain {
+            stroke: $color-grey-86;
+          }
+        }
+      }
+
+      .history-chart-hover-container {
+        width: 100%;
+        position: relative;
+
+        .history-chart-hover {
+          position: absolute;
+          width: 100%;
+          height: 50%;
+          top: 0;
+          left: 0;
+          padding-left: 31px;
+          .history-chart-hover-overlay {
+            background-color: rgba(115, 115, 115, 0.65);
+            height: 100%;
+          }
+          .history-chart-hover-line-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            margin-top: -1px;
+            .history-chart-hover-line {
+              margin-left: 25px;
+              border-bottom: 2px solid $color-grey-86;
+            }
+          }
+        }
+      }
+    }
+    .left-side {
+      width: 50%;
+      position: relative;
+
+      $indicator-circle-size: 130px;
+
+      .indicator-clock {
+        position: absolute;
+        top: 3px;
+        right: 24px;
+        width: 31px;
+      }
+      .indicator-widget {
+        width: $indicator-circle-size;
+        height: $indicator-circle-size;
+        top: 50%;
+        left: 50%;
+        margin-left: -$indicator-circle-size/2;
+        margin-top: -$indicator-circle-size/2;
+        position: absolute;
+
+        .indicator-circle {
+          @include circle($indicator-circle-size - 30);
+          left: ($indicator-circle-size - ($indicator-circle-size - 30)) / 2;
+          top: ($indicator-circle-size - ($indicator-circle-size - 30)) / 2;
+        }
+        img {
+          position: absolute;
+          left: ($indicator-circle-size - ($indicator-circle-size - 44)) / 2;
+          top: ($indicator-circle-size - ($indicator-circle-size - 44)) / 2; /* -2 is due to icon not being centered in image */
+          width: $indicator-circle-size - 44;
+        }
+        .indicator-widget-data-value {
+          white-space: pre;
+          padding-left: 5px;
+          position: absolute;
+          border-bottom: 1px solid $color-grey-86;
+          border-left: 1px solid $color-grey-86;
+          bottom: -8px;
+          left: 50%;
+          line-height: 1;
+        }
+        .indicator-widget-data-value-vertical {
+          @extend .indicator-widget-data-value;
+          left: 10px;
+          width: 85%
+        }
+
+        .indicator-widget-knob {
+          position: absolute;
+          left: $indicator-circle-size - $indicator-circle-size;
+          top: $indicator-circle-size - $indicator-circle-size;
+          width: $indicator-circle-size;
+          height: $indicator-circle-size;
+        }
+
+        .indicator-widget-knob-vertical {
+          position: absolute;
+          right: -($indicator-circle-size/2);
+          bottom: 50px;
+          width: $indicator-circle-size;
+          height: 10px;
+        }
+
+        .indicator-widget-value-level {
+          @include font-size(20/16);
+          color: $color-white;
+        }
+
+        .indicator-widget-value-unit {
+          @include font-size(10/16);
+          color: $color-grey-4B;
+          font-weight: $weight-bold;
+        }
+      }
+    }
+    .right-side {
+      left: 50%;
+      border-left: $separator-grey-86;
+      width: 45.5%;
+      .top {
+        height: 50%;
+        border-bottom: $separator-grey-86;
+
+        .widget-info {
+          font-family: $font-roboto;
+          @include font-size(14/16);
+          color: $color-grey-EC;
+          line-height: 1.1;
+          margin-bottom: 3px;
+        }
+        .editing-widget-info {
+          color: $color-white;
+          background-color: transparent;
+          border: none;
+          @include font-size(14/16);
+          line-height: 1.1;
+          margin-bottom: -1px;
+
+        }
+        .widget-type {
+          font-family: $font-roboto;
+          font-weight: $weight-light;
+          @include font-size(12/16);
+          color: $color-grey-4B;
+          font-style: italic;
+        }
+      }
+      .bottom {
+        height: 50%;
+        padding-top: 5px;
+        width: 100%;
+        .status-switch-container {
+          margin-top: 10px;
+          .bootstrap-switch {
+            box-shadow: none;
+            border: $separator-grey-86;
+          }
+          text-align: center;
+          .bootstrap-switch-label {
+            background-color: transparent;
+          }
+          .bootstrap-switch-handle-on {
+            background-color: $color-orange;
+          }
+          .bootstrap-switch-handle-off {
+            background-color: $color-purple-light;
+            color: $color-white;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+@media all and (max-width: 767px) {
+  #page-content {
+    .content-container {
+      .right-side {
+        .top {
+          .widget-info {
+            @include font-size(20/16);
+          }
+          .editing-widget-info {
+            @include font-size(20/16);
+
+          }
+          .widget-type {
+            @include font-size(20/16);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Portrait tablets and phones */
+@media all and (max-width: 991px) {
+  #page-content {
+    .content-container {
+      #refresh-devices {
+        width: 30px;
+        height: 30px;
+      }
+
+    }
+  }
+}

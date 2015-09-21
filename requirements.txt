@@ -1,0 +1,9 @@
+Fabric==1.10.0
+PyYAML==3.11
+cssutils==1.0
+libsass==0.6.1
+jsmin==2.0.11
+watchdog==0.8.2
+kajiki==0.5.1
+webassets==0.11.1
+-e git://github.com/amol-/dukpy.git#egg=dukpy==0.0.1
